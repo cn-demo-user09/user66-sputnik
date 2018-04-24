@@ -114,7 +114,7 @@ deploy-to-google:
     
     - kubectl:
         name: create deplyoment
-         server: $KUBERNETES_MASTER
+        server: $KUBERNETES_MASTER
         username: $KUBERNETES_USERNAME
         password: $KUBERNETES_PASSWORD
         insecure-skip-tls-verify: true
@@ -126,7 +126,7 @@ deploy-to-google:
 
     - kubectl:
         name: create Ingress configuration
-         server: $KUBERNETES_MASTER
+        server: $KUBERNETES_MASTER
         username: $KUBERNETES_USERNAME
         password: $KUBERNETES_PASSWORD
         insecure-skip-tls-verify: true
@@ -134,7 +134,7 @@ deploy-to-google:
         
     - kubectl:
         name: get LoadBalancer public IP address
-         server: $KUBERNETES_MASTER
+        server: $KUBERNETES_MASTER
         username: $KUBERNETES_USERNAME
         password: $KUBERNETES_PASSWORD
         insecure-skip-tls-verify: true

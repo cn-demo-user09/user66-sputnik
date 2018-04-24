@@ -5,9 +5,9 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: rest-jscreditscore
+  name: rest-sputnik
   labels:
-    run: rest-jscreditscore
+    run: rest-sputnik
 spec:
   replicas: 1
   strategy:
@@ -18,12 +18,12 @@ spec:
   template:
     metadata:
       labels:
-        run: rest-jscreditscore
+        run: rest-sputnik
     spec:
       containers:
       - image: wcr.io/$WERCKER_APPLICATION_OWNER_NAME/$WERCKER_APPLICATION_NAME:$WERCKER_GIT_BRANCH-$WERCKER_GIT_COMMIT
         imagePullPolicy: Always
-        name: rest-jscreditscore
+        name: rest-sputnik
         ports:
         - containerPort: 3000
           protocol: TCP
@@ -34,10 +34,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: rest-jscreditscore-svc
+  name: rest-sputnik-svc
 spec:
   selector:
-    run: rest-jscreditscore
+    run: rest-sputnik
   ports:
     - port: 8088
       targetPort: 3000

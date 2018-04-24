@@ -2,23 +2,21 @@ describe('Test UI: browser title', function() {
   it('AngularJS + NodeJS', function() {
     browser.get('http://localhost:3000/');
 
-    expect(browser.getTitle()).toEqual('AngularJS + NodeJS');
+    expect(browser.getTitle()).toEqual('Sputnik');
   });
 });
 
-describe('Test score using: Peter Nagy, 5/12/1976, 111-22-3333', function() {
-  it('Score result: 731', function() {
+describe('Test with hello and Martin', function() {
+  it('Response: contains Martin', function() {
     browser.get('http://localhost:3000/');
 
-    element(by.model('ctrl.user.firstname')).sendKeys('Peter');
-    element(by.model('ctrl.user.lastname')).sendKeys('Nagy');
-    element(by.model('ctrl.user.dateofbirth')).sendKeys('5/12/1976');
-    element(by.model('ctrl.user.ssn')).sendKeys('111-22-3333');
-    element(by.buttonText('Score')).click();
+    element(by.model('ctrl.user.message')).sendKeys('Hello');
+    element(by.model('ctrl.user.firstname')).sendKeys('Martin');
+    element(by.buttonText('Send')).click();
 
-    var score = element(by.id('score_result'));
+    var response = element(by.id('response_result'));
 
-    expect(score.getText()).toEqual('731');
+    expect(response.getText()).toEqual('Hello Fellow Traveller, your message was received, thankyou Martin');
   });
 });
 

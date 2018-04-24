@@ -80,6 +80,66 @@ deploy-to-oke:
         insecure-skip-tls-verify: true
         command: get svc -o jsonpath='{.items[*].status.loadBalancer.ingress[*].ip}' --all-namespaces
 
+# pipeline to deploy application on kubernetes
+deploy-to-google:
+  box:
+        id: alpine
+        cmd: /bin/sh
+  steps:
+    - bash-template
+    
+    - script:
+        name: "Visualise Kubernetes config"
+        code: cat kubernetes-deployment.yml
+    
+    - kubectl:
+        name: create namespace    
+        server: $KUBERNETES_MASTER
+        username: $KUBERNETES_USERNAME
+        password: $KUBERNETES_PASSWORD
+        insecure-skip-tls-verify: true
+        command: apply -f $WERCKER_ROOT/kubernetes-namespace.yml
+ 
+    - script:
+        name: wait to create namespace
+        code: sleep 10
+ 
+    - kubectl:
+        name: create OCR secret
+        server: $KUBERNETES_MASTER
+        username: $KUBERNETES_USERNAME
+        password: $KUBERNETES_PASSWORD
+        insecure-skip-tls-verify: true
+        command: create secret docker-registry wrelease --docker-server=wcr.io --docker-username=$WERCKER_APPLICATION_OWNER_NAME --docker-password=$KUBERNETES_TOKEN --docker-email=${WERCKER_APPLICATION_OWNER_NAME}@mail.com --namespace=$WERCKER_APPLICATION_OWNER_NAME; echo 'secret step'
+    
+    - kubectl:
+        name: create deplyoment
+         server: $KUBERNETES_MASTER
+        username: $KUBERNETES_USERNAME
+        password: $KUBERNETES_PASSWORD
+        insecure-skip-tls-verify: true
+        command: apply -f $WERCKER_ROOT/kubernetes-deployment.yml --namespace=$WERCKER_APPLICATION_OWNER_NAME
+
+    - script:
+        name: "Visualise Ingress config"
+        code: cat ingress.yml
+
+    - kubectl:
+        name: create Ingress configuration
+         server: $KUBERNETES_MASTER
+        username: $KUBERNETES_USERNAME
+        password: $KUBERNETES_PASSWORD
+        insecure-skip-tls-verify: true
+        command: apply -f $WERCKER_ROOT/ingress.yml --namespace=$WERCKER_APPLICATION_OWNER_NAME
+        
+    - kubectl:
+        name: get LoadBalancer public IP address
+         server: $KUBERNETES_MASTER
+        username: $KUBERNETES_USERNAME
+        password: $KUBERNETES_PASSWORD
+        insecure-skip-tls-verify: true
+        command: get svc -o jsonpath='{.items[*].status.loadBalancer.ingress[*].ip}' --all-namespaces
+
 # pipeline to execute functional test on application's microservice endpoint
 # single curl invocation
 rest-functional-test:

@@ -105,20 +105,12 @@ deploy-to-google:
         code: sleep 10
  
     - kubectl:
-        name: create OCR secret
-        server: $KUBERNETES_MASTER
-        username: $KUBERNETES_USERNAME
-        password: $KUBERNETES_PASSWORD
-        insecure-skip-tls-verify: true
-        command: create secret docker-registry wrelease --docker-server=wcr.io --docker-username=$WERCKER_APPLICATION_OWNER_NAME --docker-password=$KUBERNETES_TOKEN --docker-email=${WERCKER_APPLICATION_OWNER_NAME}@mail.com --namespace=$WERCKER_APPLICATION_OWNER_NAME; echo 'secret step'
-    
-    - kubectl:
         name: create deplyoment
         server: $KUBERNETES_MASTER
         username: $KUBERNETES_USERNAME
         password: $KUBERNETES_PASSWORD
         insecure-skip-tls-verify: true
-        command: apply -f $WERCKER_ROOT/kubernetes-deployment.yml --namespace=$WERCKER_APPLICATION_OWNER_NAME
+        command: apply -f $WERCKER_ROOT/kubernetes-deployment.docker.yml --namespace=$WERCKER_APPLICATION_OWNER_NAME
 
     - script:
         name: "Visualise Ingress config"

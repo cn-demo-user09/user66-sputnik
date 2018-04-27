@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: rest-sputnik-ing
+  name: rest-sputnik-ing66
   annotations:
     kubernetes.io/ingress.class: 'nginx'
     ingress.kubernetes.io/add-base-url: 'true'
@@ -10,7 +10,7 @@ spec:
   rules:
   - http:
       paths:
-      - path: /$WERCKER_APPLICATION_OWNER_NAME/user20/
+      - path: /$WERCKER_APPLICATION_OWNER_NAME/user66/
         backend:
-          serviceName: rest-sputnik-svc
-          servicePort: 8088
+          serviceName: rest-sputnik-svc66
+          servicePort: 8166

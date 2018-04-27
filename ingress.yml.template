@@ -10,7 +10,7 @@ spec:
   rules:
   - http:
       paths:
-      - path: /$WERCKER_APPLICATION_OWNER_NAME/
+      - path: /$WERCKER_APPLICATION_OWNER_NAME/user20/
         backend:
           serviceName: rest-sputnik-svc
           servicePort: 8088
